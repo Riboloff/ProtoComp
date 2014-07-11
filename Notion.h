@@ -1,3 +1,5 @@
+#ifndef NOTION_H
+#define NOTION_H
 #include <vector>
 #include <map>
 
@@ -52,3 +54,4 @@ void Notion::setSentence(list<Sentence> listParam) {
 list <Sentence> *Notion::getSentences(void) {
     return &sentences;
 }
+#endif //NOTION_H

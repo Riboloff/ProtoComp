@@ -13,7 +13,8 @@ HEADERS += \
     ReadFile.h \
     TableSymbol.h \
     Token.h \
-    Sentence.h
+    Sentence.h \
+    DumperGrammar.h
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../c_plus_plus/boost2/boost_1_55_0/stage/lib/release/ -lboost_regex

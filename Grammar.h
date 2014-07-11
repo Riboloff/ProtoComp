@@ -1,3 +1,6 @@
+#ifndef GRAMMAR_H
+#define GRAMMAR_H
+
 #include <vector>
 #include <map>
 #include "Notion.h"
@@ -20,3 +23,4 @@ void Grammar::setNotions(list <Notion> &notions) {
     this->notions=notions;
 }
 
+#endif //GRAMMAR_H

@@ -24,15 +24,16 @@ private:
 
 public:
     Parser(const char*);
-    Grammar grammar(list<Notion> &notions) throw (invalid_argument);
+    Grammar grammar(void);
 };
 Parser::Parser(const char* fileName) {
     text_ = new ReadFile(fileName);
     tableSymbol = new TableSymbol();
 }
-Grammar Parser::grammar(list<Notion> &notions) throw (invalid_argument){
+Grammar Parser::grammar(void) {
     Grammar grammar;
     Notion notion;
+    list<Notion> notions;
 
     while (!text_->checkEndFile()) {
         notion = Parser::notion();
