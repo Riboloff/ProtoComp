@@ -1,0 +1,6 @@
+(12) Exp (deg A deg B deg C) 
+    'hel  lo' Exp'1' { } 
+    "[^+]\$" 'World1' '2' {'qwerty'} 
+    'hello2' '5' {"asdqwe"} 
+( ) ( ) 
+    '123' { }
