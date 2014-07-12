@@ -4,13 +4,14 @@
 
 //#include "Token.h"
 #include "TableSymbol.h"
-#include "ReadFile.h"
+//#include "ReadFile.h"
+#include "Lexer.h"
 
 using namespace std;
 
 class Parser {
 private:
-    ReadFile *text_;
+    Lexer *text_;
     TableSymbol *tableSymbol;
     Notion notion(void);
     list <string> defferenciation(void);
@@ -27,7 +28,7 @@ public:
     Grammar grammar(void);
 };
 Parser::Parser(const char* fileName) {
-    text_ = new ReadFile(fileName);
+    text_ = new Lexer(fileName);
     tableSymbol = new TableSymbol();
 }
 Grammar Parser::grammar(void) {
@@ -35,7 +36,7 @@ Grammar Parser::grammar(void) {
     Notion notion;
     list<Notion> notions;
 
-    while (!text_->checkEndFile()) {
+    while (!text_->checkEndFile()) { //Кажется Парсер не должен проверять конец файла.
         notion = Parser::notion();
         notions.push_back(notion);
     }
@@ -162,8 +163,8 @@ Sentence Parser::sentence(void) {
     Sentence sentence;
     unsigned int pointer = text_->getPointerSymbol();
     try {
-        sentence.syntax = syntax();
-        sentence.semantic = semantic();
+        sentence.setSyntax(syntax());
+        sentence.setSemantic(semantic());
     } catch(invalid_argument) {
         text_->setPointerSymbol(pointer);
         throw invalid_argument("sencence: test");
@@ -221,7 +222,7 @@ list <string> Parser::semantic(void) {
             semantic.push_back(item);
         } catch (invalid_argument &e) {
             cout << e.what() << endl;
-            //throw invalid_argument("semantic: test");
+            throw invalid_argument("semantic: test");
         }
 
         token = text_->nextToken();

@@ -1,13 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
-#include <vector>
-#include <map>
 #include <list>
-#include <stdexcept>
 
-//#include "ReadFile.h"
 #include "Parser.h"
-//#include "TableSymbol.h"
 #include "DumperGrammar.h"
 
 using namespace std;

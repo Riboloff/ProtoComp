@@ -9,7 +9,6 @@ class Token {
 private:
     string type_;
     string value_;
-    //unsigned int id_;
 public:
     void addWord(string);
     string getType(void);
@@ -23,7 +22,6 @@ void Token::addWord(string word) {
     if(boost::regex_match(word, result, regBracket)){
         this->type_ = "bracket";
         this->value_ = word;
-        //this->id_ = 0;
         return;
 
     }
@@ -31,17 +29,14 @@ void Token::addWord(string word) {
     if(boost::regex_match(word, result, regQuotesDubles)){
         this->type_ = "dublesQuotes";
         this->value_ = result[1];
-        //this->id_ = 0;
         return;
     }
     boost::regex regQuotes("\'(.*)\'");
     if(boost::regex_match(word, result, regQuotes)){
         this->type_ = "quotes";
         this->value_ = result[1];
-        //this->id_ = 0;
         return;
     }
-    //this->id_ = tableSymbol_.putSymbol(word);
     this->type_ = "id";
     this->value_ = word;
 

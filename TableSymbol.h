@@ -24,17 +24,12 @@ TableSymbol::TableSymbol(void) {
 }
 
 int TableSymbol::putSymbol(string key) throw (invalid_argument){
-//    map<string, int>::iterator it = this->tableSymbol_.find(key);
-//    if (it == tableSymbol_.end()) {
     if(!checkSymbol(key)) {
         this->numberLast_++;
         this->tableSymbol_[key] = this->numberLast_;
     } else {
         throw invalid_argument("");
     }
-    //for (map<string, int>::iterator iter = tableSymbol_.begin(); iter != tableSymbol_.end(); iter++){
-    //    cout << iter->first << endl;
-    //}
     return this->tableSymbol_[key];
 }
 bool TableSymbol::checkSymbol(string symbol) {
