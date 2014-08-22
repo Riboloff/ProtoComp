@@ -22,8 +22,8 @@ public:
     Token nextToken(void);
     Token getToken(void);
     bool checkEndFile(void);
-    unsigned int getPointerSymbol(void);
-    void setPointerSymbol(unsigned int);
+    int getPointerSymbol(void);
+    void setPointerSymbol(int);
     void printAllTokens(void);
 };
 
@@ -38,11 +38,10 @@ Token Lexer::getToken (void) {
 
 Token Lexer::nextToken (void) {
     string word;
-
     while (!text_->pushPointer()) {
         char symbol = text_->getCurSymbol();
 
-        if (symbol == '\'' or symbol == '"') {
+        if (symbol == '\'' or symbol == '"' or symbol == '`') {
             if (word.length() == 0) {
                 word.push_back(symbol);
                 _findWordQuotesContext(word, symbol);
@@ -74,7 +73,7 @@ Token Lexer::nextToken (void) {
     }
     token_.addWord(word);
     tokens_.push_back(token_); //Только для отладки, этот массив не верен,
-                               //т.к. можно отказывать позицию указателя
+                               //т.к. можно откатывать позицию указателя
 
     return getToken();
 }
@@ -95,11 +94,11 @@ bool Lexer::checkEndFile(void) {
     return false;
 }
 
-unsigned int Lexer::getPointerSymbol (void) {
+int Lexer::getPointerSymbol (void) {
         return text_->getPointerSymbol();
 }
 
-void Lexer::setPointerSymbol (unsigned int pointer) {
+void Lexer::setPointerSymbol (int pointer) {
     text_->setPointerSymbol(pointer);
 }
 

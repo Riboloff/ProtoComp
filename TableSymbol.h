@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <map>
-#include <boost/regex.hpp>
+#include <boost/regex.hpp> //Почему invalid_argument е работает без этой либы?
 
 using namespace std;
 
@@ -28,7 +28,7 @@ int TableSymbol::putSymbol(string key) throw (invalid_argument){
         this->numberLast_++;
         this->tableSymbol_[key] = this->numberLast_;
     } else {
-        throw invalid_argument("");
+        throw invalid_argument("dublicate word");
     }
     return this->tableSymbol_[key];
 }

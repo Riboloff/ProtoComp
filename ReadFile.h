@@ -13,15 +13,15 @@ private:
     string text_;
     char symbol_;
     int endText_;
-    unsigned int pointerSymbol_;
+    int pointerSymbol_;
 public:
     ReadFile(const char* fileName);
     int pullPointer(void);
     int pushPointer(void);
     char getCurSymbol(void);
     void setCurSymbol(void);
-    unsigned getPointerSymbol(void);
-    void setPointerSymbol(unsigned int);
+    int getPointerSymbol(void);
+    void setPointerSymbol(int);
     bool checkEndFile(void);
 
 };
@@ -70,11 +70,11 @@ void ReadFile::setCurSymbol(void) {
    this->symbol_ = text_[pointerSymbol_];
 }
 
-unsigned int ReadFile::getPointerSymbol (void) {
+int ReadFile::getPointerSymbol (void) {
         return this->pointerSymbol_;
 }
 
-void ReadFile::setPointerSymbol (unsigned int pointer) {
+void ReadFile::setPointerSymbol (int pointer) {
         if (this->pointerSymbol_ >= pointer) {
             this->pointerSymbol_ = pointer;
             this->setCurSymbol();

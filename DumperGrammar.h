@@ -20,16 +20,17 @@ list <Notion> notions = grammar.getNotions();
     for (list<Notion>::iterator iter = notions.begin(); iter != notions.end(); iter++) {
         Notion n = *iter;
         string str = ", ";
-        cout << "Notion:" << endl;
-        cout << "\tDefferenciation:" << join(n.getDefferenciation(), str) << endl;
-        cout << "\tName:" << n.getName() << endl;
-        cout << "\tIntegration:" << join(n.getIntegration(), str) << endl;
+        cout << "Notion: " << endl;
+        cout << "\tAspect: " << n.getAspect() << endl;
+        cout << "\tDefferenciation: " << join(n.getDefferenciation(), str) << endl;
+        cout << "\tName: " << n.getName() << endl;
+        cout << "\tIntegration: " << join(n.getIntegration(), str) << endl;
         list<Sentence> *sentences = n.getSentences();
         for (list<Sentence>::iterator tr = sentences->begin(); tr != sentences->end(); tr++) {
             Sentence sentece = *tr;
-            cout << "\t\tSentenses:" << endl;
-            cout << "\t\t\tsyntax:" << join(sentece.getSyntax(), str) << endl;
-            cout << "\t\t\tsemantic:" << join(sentece.getSemantic(), str) << endl;
+            cout << "\t\tSentenses: " << endl;
+            cout << "\t\t\tsyntax: " << join(sentece.getSyntax(), str) << endl;
+            cout << "\t\t\tsemantic: " << join(sentece.getSemantic(), str) << endl;
         }
     }
 }

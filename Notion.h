@@ -13,10 +13,13 @@ class Notion {
         string name;
         list <string> defferenciation;
         list <Sentence> sentences;
+        string aspect;
 
     public:
         string getName();
         void setName(string);
+        string getAspect();
+        void setAspect(string);
         void setDefferenciation (list <string>);
         void setIntegration (list <string>);
         list <string> * getDefferenciation(void);
@@ -31,6 +34,14 @@ void Notion::setName(string name) {
 string Notion::getName() {
     return name;
 }
+
+void Notion::setAspect(string aspect) {
+    this->aspect=aspect;
+}
+string Notion::getAspect() {
+    return aspect;
+}
+
 void Notion::setDefferenciation (list <string> listParam) {
     this->defferenciation = listParam;
 }

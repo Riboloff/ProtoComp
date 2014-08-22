@@ -12,11 +12,12 @@ using namespace std;
 class Parser {
 private:
     Lexer *text_;
-    TableSymbol *tableSymbol;
+    TableSymbol *tableSymbol_;
     Notion notion(void);
     list <string> defferenciation(void);
     list <string> integration(void);
     string nameDefinition(void);
+    string aspectDefinition(void);
     list <Sentence> sentences(void);
     Sentence sentence(void);
     list <string> syntax(void);
@@ -29,7 +30,7 @@ public:
 };
 Parser::Parser(const char* fileName) {
     text_ = new Lexer(fileName);
-    tableSymbol = new TableSymbol();
+    tableSymbol_ = new TableSymbol();
 }
 Grammar Parser::grammar(void) {
     Grammar grammar;
@@ -40,6 +41,18 @@ Grammar Parser::grammar(void) {
         notion = Parser::notion();
         notions.push_back(notion);
     }
+    /*
+    while (true) {
+        try {
+            notion = Parser::notion();
+            notions.push_back(notion);
+        } catch (EndOfFile) {
+            break;
+        } catch (invalid_argument) {
+            throw (invalid_argument);
+        }
+    }
+    */
     grammar.setNotions(notions);
     return grammar;    
 }
@@ -47,12 +60,22 @@ Grammar Parser::grammar(void) {
 Notion Parser::notion(void) {
     Notion notion;
     int localPosition = text_->getPointerSymbol();
+
+    try {
+        notion.setAspect(aspectDefinition());
+    } catch (invalid_argument) {
+
+    }
+
     try {
         notion.setDefferenciation(defferenciation());
     } catch (invalid_argument &e) {
         text_->setPointerSymbol(localPosition);
         cout << e.what() << endl;
+    } /*catch (EndOfFile) {
+        throw EndOfFile;
     }
+*/
     notion.setName(nameDefinition());
     try {
         notion.setIntegration(integration());
@@ -61,7 +84,7 @@ Notion Parser::notion(void) {
         cout << e.what() << endl;
     }
     int startPositionSentance = text_->getPointerSymbol();
-    try {
+    try {//Есть мнение, что может не быть ни одного sentence
         notion.setSentence(sentences());
     } catch (invalid_argument) {
         text_->setPointerSymbol(startPositionSentance);
@@ -73,7 +96,7 @@ list <string> Parser::defferenciation(void) {
     list <string> defferenciation;
     Token token = text_->nextToken();
     if(text_->checkEndFile()) {
-        throw invalid_argument("defferenciatio: EOF");
+        throw invalid_argument("defferenciation: EOF");
     }
 
     if (token.getValue() == "(") {
@@ -84,7 +107,7 @@ list <string> Parser::defferenciation(void) {
         }
         return defferenciation;
     } else {
-        throw invalid_argument("defferenciatio: Token != (");
+        throw invalid_argument("defferenciation: Token != (");
     }
 }
 
@@ -95,7 +118,6 @@ list <string> Parser::integration(void) {
     if(text_->checkEndFile()) {
         throw invalid_argument("integration: EOF");
     }
-
     if (token.getValue() == "(") {
         token = text_->nextToken();
         while(token.getValue() != ")") {
@@ -108,6 +130,31 @@ list <string> Parser::integration(void) {
     }
 }
 
+string Parser::aspectDefinition(void) {
+    string aspect_definition;
+    int startPosition = text_->getPointerSymbol();
+    Token token = text_->nextToken();
+
+    if(token.getValue() == "(") {
+        cout << startPosition<<endl;
+        text_->setPointerSymbol(startPosition);
+        throw invalid_argument("");
+    }
+//Для аспектов нужна ли таблица символов?
+    if (token.getType() == "id") {
+        aspect_definition = token.getValue();
+        boost::smatch result;
+        boost::regex name_valid("[A-Za-z][A-Za-z]*");
+        if(! boost::regex_match(aspect_definition, result, name_valid)) {
+            text_->setPointerSymbol(startPosition);
+            throw invalid_argument("nameDefinition");
+        }
+
+    }
+
+    return aspect_definition;
+}
+
 string Parser::nameDefinition(void) {
     string name_definition;
     unsigned int startPosition = text_->getPointerSymbol();
@@ -118,7 +165,7 @@ string Parser::nameDefinition(void) {
         text_->setPointerSymbol(startPosition);
         name_definition = "__empty__";
         try {
-            tableSymbol->putSymbol(name_definition);
+            tableSymbol_->putSymbol(name_definition);
         } catch (invalid_argument &e) {
             cout << "Dublication empty name" << name_definition << endl;
         }
@@ -128,8 +175,8 @@ string Parser::nameDefinition(void) {
         boost::regex name_valid("[A-Za-z][A-Za-z]*");
         if(boost::regex_match(name_definition, result, name_valid)) {
             try {
-               tableSymbol->putSymbol(name_definition);
-            } catch (invalid_argument &e) {
+               tableSymbol_->putSymbol(name_definition);
+            } catch (invalid_argument) {
                 cout << "Dublication" << name_definition << endl;
             }
         } else {
@@ -152,7 +199,7 @@ list <Sentence> Parser::sentences(void) {
             sent = sentence();
             sentences.push_back(sent);
         } catch (invalid_argument &e) {
-            cout << e.what() << endl;
+            //cout << e.what() << endl;
             break;
         }
     }
@@ -196,12 +243,14 @@ list <string> Parser::syntax(void) {
 string Parser::item(void) {
     Token token = text_->getToken();
     string type = token.getType();
-    if (type == "quotes") {
-        return "'" + token.getValue() + "'";
-    } else if (type == "dublesQuotes") {
+    if (type == "term") {
+        return "'" + token.getValue() + "'"; //должнабыть ф-я, которая квотит строку.
+    } else if (type == "pattern") {
         return "\"" + token.getValue() + "\"";
+    } else if (type == "alias") {
+        return "`" + token.getValue() + "`";
     } else if (type == "id") {
-        if (tableSymbol->checkSymbol(token.getValue())) {
+        if (tableSymbol_->checkSymbol(token.getValue())) {
             return token.getValue();
         }
     }

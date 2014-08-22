@@ -8,6 +8,7 @@ class Sentence {
 private:
     list <string> syntax;
     list <string> semantic;
+
 public:
     list <string>* getSyntax(void);
     list <string>* getSemantic(void);
