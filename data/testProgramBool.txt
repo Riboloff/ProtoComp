@@ -1,0 +1,10 @@
+() Boolin ()
+      "Yes|No" { } 
+(Boolin) Number ()
+      Boolin { }
+      "[0-9]+(,[0-9]+)?" {Number } 
+      '(' Number ')' { }
+      '|' Number '|' { }
+      "-|+" Number { }
+      Number "-|+" Number { }
+      Number "*|/" Number { }
