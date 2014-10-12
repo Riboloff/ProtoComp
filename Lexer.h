@@ -7,6 +7,7 @@
 
 #include "Token.h"
 #include "ReadFile.h"
+#include "ExceptionStorage.h"
 
 using namespace std;
 
@@ -39,7 +40,7 @@ Token Lexer::getToken (void) {
 Token Lexer::nextToken (void) {
     string word;
     while (!text_->pushPointer()) {
-        char symbol = text_->getCurSymbol();
+        const char symbol = text_->getCurSymbol();
 
         if (symbol == '\'' or symbol == '"' or symbol == '`') {
             if (word.length() == 0) {
@@ -50,7 +51,8 @@ Token Lexer::nextToken (void) {
             }
             break;
         }
-        if (symbol == '(' or symbol == ')' or symbol == '[' or symbol == ']') {
+
+        if (symbol == '(' or symbol == ')' or symbol == '[' or symbol == ']' or symbol == '{' or symbol == '}') {
             if (word.length() == 0) {
                 word.push_back(symbol);
             } else {
@@ -59,18 +61,22 @@ Token Lexer::nextToken (void) {
             break;
 
         }
+
         if (symbol == ' ' or symbol == '\n') {
             if (word.length() == 0) {
                 continue;
             }
             break;
         }
+
         word.push_back(symbol);
     }
 
     if (text_->checkEndFile()) {
-        throw invalid_argument("nextToken: EOF");
+        //throw invalid_argument("nextToken: EOF");
+        throw end_of_file("nextToken: EOF");
     }
+
     token_.addWord(word);
     tokens_.push_back(token_); //Только для отладки, этот массив не верен,
                                //т.к. можно откатывать позицию указателя

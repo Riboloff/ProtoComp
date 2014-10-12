@@ -15,18 +15,19 @@ HEADERS += \
     Token.h \
     Sentence.h \
     DumperGrammar.h \
-    Lexer.h
+    Lexer.h \
+    ExceptionStorage.h
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../c_plus_plus/boost2/boost_1_55_0/stage/lib/release/ -lboost_regex
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../c_plus_plus/boost2/boost_1_55_0/stage/lib/debug/ -lboost_regex
-else:unix: LIBS += -L$$PWD/../c_plus_plus/boost2/boost_1_55_0/stage/lib/ -lboost_regex
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../usr/local/lib/release/ -lboost_regex
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../usr/local/lib/debug/ -lboost_regex
+else:unix: LIBS += -L$$PWD/../../../../../usr/local/lib/ -lboost_regex
 
-INCLUDEPATH += $$PWD/../c_plus_plus/boost2/boost_1_55_0
-DEPENDPATH += $$PWD/../c_plus_plus/boost2/boost_1_55_0
+INCLUDEPATH += $$PWD/../../../../../usr/local/include
+DEPENDPATH += $$PWD/../../../../../usr/local/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../c_plus_plus/boost2/boost_1_55_0/stage/lib/release/libboost_regex.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../c_plus_plus/boost2/boost_1_55_0/stage/lib/debug/libboost_regex.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../c_plus_plus/boost2/boost_1_55_0/stage/lib/release/boost_regex.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../c_plus_plus/boost2/boost_1_55_0/stage/lib/debug/boost_regex.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../c_plus_plus/boost2/boost_1_55_0/stage/lib/libboost_regex.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../../usr/local/lib/release/libboost_regex.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../../usr/local/lib/debug/libboost_regex.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../../usr/local/lib/release/boost_regex.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../../usr/local/lib/debug/boost_regex.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../../../usr/local/lib/libboost_regex.a

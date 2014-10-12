@@ -20,12 +20,12 @@ public:
 };
 
 TableSymbol::TableSymbol(void) {
-    numberLast_ = 0;
+    numberLast_ = 0; //Надо вспомнить зачем храним последний
 }
 
 int TableSymbol::putSymbol(string key) throw (invalid_argument){
     if(!checkSymbol(key)) {
-        this->numberLast_++;
+        //this->numberLast_++; //И зачем инкрементим?
         this->tableSymbol_[key] = this->numberLast_;
     } else {
         throw invalid_argument("dublicate word");
