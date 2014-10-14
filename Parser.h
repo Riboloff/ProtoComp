@@ -2,9 +2,7 @@
 #include <map>
 #include "Grammar.h"
 
-//#include "Token.h"
 #include "TableSymbol.h"
-//#include "ReadFile.h"
 #include "Lexer.h"
 #include "ExceptionStorage.h"
 
@@ -38,30 +36,23 @@ Grammar Parser::grammar(void) {
     Notion notion;
     list<Notion> notions;
 
-    try {
-        while (!text_->checkEndFile()) { //Кажется Парсер не должен проверять конец файла.
-            notion = Parser::notion();
-            notions.push_back(notion);
-        }
-    } catch (incorrect_branch_parsing) {
-        cout << "inc" << endl;
-    } catch (invalid_argument &e) {
-        cout << e.what() << endl;
-        throw invalid_argument("grammar:");
-    }
-
-    /*
     while (true) {
         try {
             notion = Parser::notion();
             notions.push_back(notion);
-        } catch (EndOfFile) {
+
+        } catch (incorrect_branch_parsing) {
+            cout << "incorrect_branch_parsing" << endl;
+
+        } catch (invalid_argument &e) {
+            cout << e.what() << endl;
+            throw invalid_argument("grammar:");
+
+        } catch (end_of_file) {
             break;
-        } catch (invalid_argument) {
-            throw (invalid_argument);
         }
     }
-    */
+
     grammar.setNotions(notions);
 
     return grammar;    
@@ -83,10 +74,10 @@ Notion Parser::notion(void) {
         text_->setPointerSymbol(localPosition);
         cout << e.what() << endl;
         throw invalid_argument("notion:");
-    } /*catch (EndOfFile) {
-        throw EndOfFile;
+    } catch (end_of_file) {
+        throw end_of_file("");
     }
-*/
+
     notion.setName(nameDefinition());
 
     try {
@@ -99,22 +90,13 @@ Notion Parser::notion(void) {
 
     int startPositionSentance = text_->getPointerSymbol();
 
-    try {//Есть мнение, что может не быть ни одного sentence
+    try {
         notion.setSentence(sentences());
     } catch (invalid_argument &e) {
         cout << e.what() << endl;
         text_->setPointerSymbol(startPositionSentance);
         throw invalid_argument("notion:");
-    } //catch (end_of_file) {
-      //  cout << "notion: -> end_of_file";
-   // }
-
-    /*catch (incorrect_branch_parsing) {
-        cout << "notion: ->incorrect_branch_parsing" << endl;
-        text_->setPointerSymbol(startPositionSentance);
-        throw incorrect_branch_parsing("");
-    } */
-
+    }
 
     return notion;
 }
@@ -122,9 +104,6 @@ Notion Parser::notion(void) {
 list <string> Parser::defferenciation(void) {
     list <string> defferenciation;
     Token token = text_->nextToken();
-    if(text_->checkEndFile()) {
-        throw invalid_argument("defferenciation: EOF");
-    }
 
     if (token.getValue() == "(") {
         token = text_->nextToken();
@@ -150,9 +129,6 @@ list <string> Parser::integration(void) {
     list <string> integration;
     Token token = text_->nextToken();
 
-    if(text_->checkEndFile()) {
-        throw invalid_argument("integration: EOF");
-    }
     if (token.getValue() == "(") {
         token = text_->nextToken();
         while(token.getValue() != ")") {
@@ -160,6 +136,7 @@ list <string> Parser::integration(void) {
             token = text_->nextToken();
         }
         return integration;
+
     } else {
         throw invalid_argument("integration: Token != (");
     }
@@ -227,7 +204,7 @@ list <Sentence> Parser::sentences(void) {
     }
     list<Sentence> sentences;
 
-    while(1) {
+    while(true) {
         try {
             Sentence sent;
             sent = sentence();
@@ -239,10 +216,10 @@ list <Sentence> Parser::sentences(void) {
             //cout << "sencences: ->incorrect_branch_parsing" << endl;
             break;
         } catch (end_of_file) {
-            //cout << "sencences: -> end_of_file" << endl;
             break;
         }
     }
+
     return sentences;
 }
 
@@ -260,10 +237,6 @@ Sentence Parser::sentence(void) {
         //cout << "sencence: ->incorrect_branch_parsing" << endl;
         text_->setPointerSymbol(pointer);
         throw incorrect_branch_parsing("sencence: ->incorrect_branch_parsing");
-    } catch(end_of_file) {
-        //cout << "sencence: -> end_of_file" << endl;
-        text_->setPointerSymbol(pointer);
-        throw end_of_file("sencence: ->end_of_file");
     }
 
     return sentence;
@@ -272,12 +245,7 @@ Sentence Parser::sentence(void) {
 list <string> Parser::syntax(void) {
     list <string> syntax;
     unsigned int pointer = text_->getPointerSymbol();
-    Token token;
-    try {
-        token = text_->nextToken();
-    } catch(end_of_file) {
-        throw end_of_file("syntax: ->end_of_file");
-    }
+    Token token = text_->nextToken();
 
     string item;
     while (token.getValue() != "{") {
@@ -286,7 +254,6 @@ list <string> Parser::syntax(void) {
             syntax.push_back(item);
         } catch (invalid_argument &e) {
             //cout << e.what() << endl;
-            //throw invalid_argument("syntax: test");
             throw incorrect_branch_parsing("syntax: Parser::item");
         }
 

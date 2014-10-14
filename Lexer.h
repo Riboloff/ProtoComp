@@ -73,7 +73,6 @@ Token Lexer::nextToken (void) {
     }
 
     if (text_->checkEndFile()) {
-        //throw invalid_argument("nextToken: EOF");
         throw end_of_file("nextToken: EOF");
     }
 
