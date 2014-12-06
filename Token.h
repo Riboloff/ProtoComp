@@ -27,18 +27,21 @@ void Token::addWord(string word) {
     boost::regex regQuotesDubles("\"(.*)\"");
     if(boost::regex_match(word, result, regQuotesDubles)){
         this->type_ = "pattern";
+        //this->value_ = "\"" + result[1] + "\"";
         this->value_ = result[1];
         return;
     }
     boost::regex regQuotes("\'(.*)\'");
     if(boost::regex_match(word, result, regQuotes)){
         this->type_ = "term";
+        //this->value_ = "'" + result[1] + "'";
         this->value_ = result[1];
         return;
     }
     boost::regex regQuotesBack("`(.*)`");
     if(boost::regex_match(word, result, regQuotesBack)){
         this->type_ = "alias";
+        //this->value_ = "`" + result[1] + "`";
         this->value_ = result[1];
         return;
     }

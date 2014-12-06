@@ -51,7 +51,7 @@ int ReadFile::pullPointer(void) {
 }
 
 int ReadFile::pushPointer(void) {
-    if(++pointerSymbol_ <= text_.length()) {
+    if(++pointerSymbol_ <=int(text_.length() ) ) {
         symbol_ = text_[pointerSymbol_];
         return 0;
     } else {

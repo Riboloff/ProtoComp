@@ -22,9 +22,10 @@ class Notion {
         void setAspect(string);
         void setDefferenciation (list <string>);
         void setIntegration (list <string>);
+        void setSentence(list<Sentence>);
+        void pushBackSentence(Sentence);
         list <string> * getDefferenciation(void);
         list <string> * getIntegration(void);
-        void setSentence(list<Sentence>);
         list <Sentence> *getSentences(void) ;
 };
 
@@ -60,6 +61,10 @@ list <string> *Notion::getIntegration() {
 
 void Notion::setSentence(list<Sentence> listParam) {
     this->sentences = listParam;
+}
+
+void Notion::pushBackSentence(Sentence sentence) {
+    this->sentences.push_back(sentence);
 }
 
 list <Sentence> *Notion::getSentences(void) {

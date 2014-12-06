@@ -26,6 +26,7 @@ public:
     int getPointerSymbol(void);
     void setPointerSymbol(int);
     void printAllTokens(void);
+    string getTextUntilToken(Token);
 };
 
 
@@ -113,6 +114,19 @@ void Lexer::printAllTokens(void) {
         cout << "Value=" <<tok.getValue() << "\t";
         cout << "Type=" <<tok.getType() << endl;
     }
+}
+string Lexer::getTextUntilToken(Token token) {
+    if (token.getValue() != "}") {
+        throw invalid_argument("Lexer::getTextUntilToken: only } supported");
+    }
+    string text;
+    _findWordQuotesContext(text, '}');
+
+    if (text.at(text.length() - 1) != '}') {
+        throw invalid_argument("} expected");
+    }
+
+    return text.substr(0, text.length() - 1);
 }
 
 #endif // LEXER_H

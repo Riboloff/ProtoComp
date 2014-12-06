@@ -11,6 +11,7 @@ using namespace std;
 class DumperGrammar {
 private:
     string join(list<string>*, string);
+    string join(vector<Token>*, string);
 public:
     void dumpGrammar(Grammar);
 };
@@ -49,4 +50,17 @@ string DumperGrammar::join(list<string>* list_, string str) {
     return stringOut;
 }
 
+string DumperGrammar::join(vector <Token>* list_, string str) {
+    string stringOut;
+    unsigned int size = list_->size();
+    unsigned int count = 0;
+    for (vector<Token>::iterator tr = list_->begin(); tr != list_->end(); tr++) {
+        stringOut += tr->getValue();
+        if(count != size-1) {
+            stringOut +=  str;
+        }
+        count++;
+    }
+    return stringOut;
+}
 #endif // DUMPERGRAMMAR_H

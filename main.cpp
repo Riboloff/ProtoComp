@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
     const char *fileName = argv[1];
     if (argc < 2) { 
       cerr << "Вы должны указать имя файла" << endl; 
-      exit(1); 
+      exit(1);
     }
 
     Parser parser(fileName);
@@ -18,8 +18,8 @@ int main(int argc, char *argv[]) {
     //list<Notion> notions;
     try {
         grammar = parser.grammar();
-        DumperGrammar dumper;
-        dumper.dumpGrammar(grammar);
+        //DumperGrammar dumper;
+       // dumper.dumpGrammar(grammar);
     } catch (invalid_argument &e) {
         cout << e.what() << endl;
     }
