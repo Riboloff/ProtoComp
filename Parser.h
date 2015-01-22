@@ -304,24 +304,15 @@ Semantic Parser::semantic(void) {
     Token closeBracket;
     closeBracket.addWord("}");
     Semantic semantic(text_->getTextUntilToken(closeBracket), tableSymbol_->getNotions());
-    semantic.checkSemantic(0);
-
-    //semantic = new Semantic(text_->getTextUntilToken(closeBracket), tableSymbol_->getNotions());
- /*   token = text_->nextToken();
-
-    while (token.getValue() != "}") {
-        semanticText.push_back(token);
-        token = text_->nextToken();
-    }
     try {
-        tableSymbol_->dumpNotions();
-       // semantic.LexicalAnalysis(semanticText, *tableSymbol_);
-        cout << "-------\n";
+        if(!semantic.checkSemantic(0)) {
+            throw invalid_argument("semantic: Semantic::LexicalAnalysis-> invalid_argument");
+        }
     } catch (invalid_argument &e) {
         cout << e.what() << endl;
         throw invalid_argument("semantic: Semantic::LexicalAnalysis-> invalid_argument");
     }
-*/
+
     return semantic;
 }
 #endif //PARSER_H

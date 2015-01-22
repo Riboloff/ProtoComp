@@ -13,10 +13,12 @@ HEADERS += \
     ReadFile.h \
     TableSymbol.h \
     Token.h \
-    Sentence.h \
     DumperGrammar.h \
     Lexer.h \
-    ExceptionStorage.h
+    ExceptionStorage.h \
+    Semantic.h \
+    Semantic.h \
+    Sentence.h
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../usr/local/lib/release/ -lboost_regex
@@ -31,3 +33,5 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../..
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../../usr/local/lib/release/boost_regex.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../../usr/local/lib/debug/boost_regex.lib
 else:unix: PRE_TARGETDEPS += $$PWD/../../../../../usr/local/lib/libboost_regex.a
+
+OTHER_FILES +=

@@ -20,6 +20,7 @@ public:
     //void setSyntax(list <string>);
     void setSyntax(vector <Token>);
     void setSemantic(vector <Token>);
+    void dumpSentenceSyntax(void);
 };
 
 //list <string>* Sentence::getSyntax(void) {
@@ -38,4 +39,13 @@ void Sentence::setSyntax(vector <Token> listParam) {
 void Sentence::setSemantic(vector <Token> listParam) {
     this->semantic = listParam;
 }
+
+void Sentence::dumpSentenceSyntax(void) {
+    cout << "Syntax:" << endl;
+    for (vector <Token>::iterator iter = this->syntax.begin(); iter != this->syntax.end(); ++iter) {
+        Token token = *iter;
+        cout << "\t" << token.getType() << ":\t" << token.getValue() << endl;
+    }
+}
+
 #endif // SENTENCE_H

@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     try {
         grammar = parser.grammar();
         //DumperGrammar dumper;
-       // dumper.dumpGrammar(grammar);
+        //dumper.dumpGrammar(grammar);
     } catch (invalid_argument &e) {
         cout << e.what() << endl;
     }
